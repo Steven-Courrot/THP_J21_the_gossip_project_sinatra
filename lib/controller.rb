@@ -11,19 +11,14 @@ class ApplicationController < Sinatra::Base
   end
   
   post '/gossips/new/' do
-    Gossip.new("super_auteur", "super_gossip").save
-      puts "Salut, je suis dans le serveur"
-      puts "Ceci est le contenu du hash params : #{params}"
-      puts "Trop bien ! Et ceci est ce que l'utilisateur a passé dans le champ gossip_author : #{params["gossip_author"]}"
-      puts "De la bombe, et du coup ça, ça doit être ce que l'utilisateur a passé dans le champ gossip_content : #{params["gossip_content"]}"
-      puts "Ça déchire sa mémé, bon allez je m'en vais du serveur, ciao les BGs !"
-    end
-  end
-  
-  get '/gossips/:id/' do
-    id = params["id"].to_i
-    erb :show, locals: {gossip: Gossip.find(id)}
+    Gossip.new("#{params["gossip_author"]}", "#{params["gossip_content"]}").save
     redirect '/'
-    end
   end
+
+  # get '/gossips/:id/' do
+  #   id = params["id"].to_i
+  #   erb :show, locals: {gossip: Gossip.find(id)}
+  #   redirect '/'
+  #   end
+  # end
 end
