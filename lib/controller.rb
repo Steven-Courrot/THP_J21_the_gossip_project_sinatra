@@ -1,15 +1,29 @@
+require 'gossip'
+
 class ApplicationController < Sinatra::Base
   
   get '/' do
-    erb :index 
+    erb :index, locals: { gossips: Gossip.all}
   end
   
   get '/gossips/new/' do
-    puts "Ce programme ne fait rien pour le moment, on va donc afficher un message dans le terminal"
+    erb :new_gossip
   end
   
   post '/gossips/new/' do
-    Gossip.new(les_entrées_du_gossip).save
+    Gossip.new("super_auteur", "super_gossip").save
+      puts "Salut, je suis dans le serveur"
+      puts "Ceci est le contenu du hash params : #{params}"
+      puts "Trop bien ! Et ceci est ce que l'utilisateur a passé dans le champ gossip_author : #{params["gossip_author"]}"
+      puts "De la bombe, et du coup ça, ça doit être ce que l'utilisateur a passé dans le champ gossip_content : #{params["gossip_content"]}"
+      puts "Ça déchire sa mémé, bon allez je m'en vais du serveur, ciao les BGs !"
+    end
   end
-
+  
+  get '/gossips/:id/' do
+    id = params["id"].to_i
+    erb :show, locals: {gossip: Gossip.find(id)}
+    redirect '/'
+    end
+  end
 end
